@@ -1,0 +1,22 @@
+version: '3'
+services:
+  postgres:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=caiopcabral
+      - POSTGRES_PASSWORD=0102
+      - POSTGRES_DB=GinApi      
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "caiiocabral42@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "0102"
+    ports:
+      - "54321:80"
+    depends_on:
+      - postgres
