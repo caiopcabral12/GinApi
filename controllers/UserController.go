@@ -61,15 +61,21 @@ func UpdateStudent(c *gin.Context) {
 		return
 	}
 
+	if err := md.Validate(&student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+
 	db.DB.Model(&student).UpdateColumns(student)
 	c.JSON(http.StatusOK, gin.H{
 		"Success": "Student updated!"})
 }
 
 func Greetings(c *gin.Context) {
-	name := c.Params.ByName("NAME")
+	//name := c.Params.ByName("NAME")
 	c.JSON(200, gin.H{
-		"Greetings from Gin!": "Mr" + name + " Welcome to this API",
+		"Greetings from Gin!": "Mr Caio Welcome to this API",
 	})
 
 }
@@ -77,6 +83,12 @@ func Greetings(c *gin.Context) {
 func NewStudent(c *gin.Context) {
 	var student md.Student
 	if err := c.ShouldBindJSON(&student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+
+	if err := md.Validate(&student); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
 		return
