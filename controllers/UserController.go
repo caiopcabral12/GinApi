@@ -97,3 +97,15 @@ func NewStudent(c *gin.Context) {
 	db.DB.Create(&student)
 	c.JSON(http.StatusOK, student)
 }
+
+func IndexPage(c *gin.Context) {
+	var students []md.Student
+	db.DB.Find(&students)
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"students": students,
+	})
+}
+
+func UnknownRoute(c *gin.Context) {
+	c.HTML(http.StatusNotFound, "404.html", nil)
+}
